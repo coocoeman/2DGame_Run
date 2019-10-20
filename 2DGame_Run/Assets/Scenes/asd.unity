@@ -133,8 +133,9 @@ GameObject:
   - component: {fileID: 75640483}
   - component: {fileID: 75640487}
   - component: {fileID: 75640486}
+  - component: {fileID: 75640488}
   m_Layer: 0
-  m_Name: Run (1)
+  m_Name: Cat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -216,7 +217,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 75640482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.64284, y: -2.8603668, z: 0}
+  m_LocalPosition: {x: -7.44, y: -2.91, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -259,6 +260,25 @@ CapsuleCollider2D:
   m_Offset: {x: -0.039691925, y: -0.16443849}
   m_Size: {x: 0.6800337, y: 1.8821359}
   m_Direction: 0
+--- !u!114 &75640488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 75640482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2672e31ac8d27dd49ab71baa4fde7a51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  catName: "123\u3107\u3107asd"
+  speed: 0.171
+  jumpNumder: 2
+  jump: 3.5
+  jumpBool: 1
+  cat: {fileID: 75640485}
+  useCamera: {fileID: 219953803}
 --- !u!1 &219953800
 GameObject:
   m_ObjectHideFlags: 0
@@ -336,7 +356,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 219953800}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.56, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1937,9 +1957,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1874765397}
-        m_MethodName: set_fillAmount
-        m_Mode: 4
+      - m_Target: {fileID: 75640488}
+        m_MethodName: Jump
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
