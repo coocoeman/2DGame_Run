@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Tilemaps;
 
 public class Cat : MonoBehaviour
 {
@@ -13,7 +14,8 @@ public class Cat : MonoBehaviour
     public float HP = 10;
     public float 傷害直 = 20;
     private float _HP;
-
+    private int ta;
+    public float HHPP;
     private Transform useCamera;
     private Animator animator;
     private CapsuleCollider2D collider2D;
@@ -22,6 +24,8 @@ public class Cat : MonoBehaviour
     public AudioClip clipjump, clipslip;
     private SpriteRenderer sprite;
     public Image image;
+    public Tilemap tpa;
+    public Text T;
     #endregion
 
     private void Start()
@@ -39,7 +43,7 @@ public class Cat : MonoBehaviour
     {
         catMobile();
         cameraMobile();
-
+        血量();
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -47,11 +51,48 @@ public class Cat : MonoBehaviour
         {
             jumpBool = true;
         }
+        if (collision.gameObject.name == "道具")
+        {
+            吃到道具(collision);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        受傷();
+        if (collision.name == "障礙物")
+        {
+            受傷();
+        }
+        if (collision.tag == "道具")
+        {
+            吃(collision);
+        }
+
+    }
+
+    void 血量()
+    {
+        HP -= Time.deltaTime * HHPP;
+        image.fillAmount = HP / _HP;
+    }
+
+    void 吃(Collider2D collision)
+    {
+        Destroy(collision.gameObject);
+        ta++;
+        T.text = ta.ToString();
+    }
+
+    void 吃到道具(Collision2D collision)
+    {
+        Vector3 pos = Vector3.zero;
+        Vector3 _v3 = Vector3.zero;
+        _v3 = collision.contacts[0].point;
+        Debug.Log(_v3);
+        Vector3 n = collision.contacts[0].normal;
+        pos.x = _v3.x - n.x * 0.01f;
+        pos.y = _v3.y - n.y * 0.01f;
+        tpa.SetTile(tpa.WorldToCell(pos),null);
     }
 
     void 受傷()
@@ -91,6 +132,7 @@ public class Cat : MonoBehaviour
     {
         if (jumpBool == true)
         {
+            //transform.position = new Vector2(transform.position.x,1);
             animator.SetBool("跳", true);
             rigidbody2D.AddForce(new Vector2(0, jump));
             jumpBool = false;

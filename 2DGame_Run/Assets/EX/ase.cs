@@ -8,7 +8,7 @@ public class ase : MonoBehaviour
     [Range(1, 2.5f)] public float 跳的高度;
 
     public Transform 角色,攝影機;
-    
+
     private void Update()
     {
         跑跑跑();
