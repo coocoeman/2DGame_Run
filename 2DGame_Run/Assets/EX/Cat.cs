@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Tilemaps;
+using System.Collections;
 
 public class Cat : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class Cat : MonoBehaviour
     public Image image;
     public Tilemap tpa;
     public Text T;
+    public GameObject end;
+    public Text texta, textb, textc;
+    public int textaa, textbb, textcc;
     #endregion
 
     private void Start()
@@ -67,13 +71,18 @@ public class Cat : MonoBehaviour
         {
             吃(collision);
         }
-
+        if (collision.name == "死")
+        {
+            HP = 0;
+            死亡();
+        }
     }
 
     void 血量()
     {
         HP -= Time.deltaTime * HHPP;
         image.fillAmount = HP / _HP;
+        死亡();
     }
 
     void 吃(Collider2D collision)
@@ -101,6 +110,7 @@ public class Cat : MonoBehaviour
         image.fillAmount = HP/_HP;
         sprite.enabled = false;
         Invoke("閃爍" , 0.2f);
+        死亡();
 
     }
     void 閃爍()
@@ -130,6 +140,8 @@ public class Cat : MonoBehaviour
     /// </summary>
     public void Jump()
     {
+        if (animator.GetBool("死亡"))
+            return;
         if (jumpBool == true)
         {
             //transform.position = new Vector2(transform.position.x,1);
@@ -142,6 +154,8 @@ public class Cat : MonoBehaviour
 
     public void Slip()
     {
+        if (animator.GetBool("死亡"))
+            return;
         animator.SetBool("滑", true);
         collider2D.offset = new Vector2(-0.1f, -0.6f);
         collider2D.size = new Vector2(1f, 1f);
@@ -157,5 +171,37 @@ public class Cat : MonoBehaviour
         animator.SetBool("滑", false);
         collider2D.offset = new Vector2(-0.1f, -0.1f);
         collider2D.size = new Vector2(1f,2f);
+    }
+
+    private void 死亡()
+    {
+        if (HP <=0)
+        {
+            speed = 0;
+            animator.SetBool("死亡", true);
+            END畫面();
+
+        }
+    }
+
+    private void END畫面()
+    {
+        if (end.activeInHierarchy == false)
+        {
+            end.SetActive(true);
+            StartCoroutine(等待計算(ta,textaa,texta));
+        }
+    }
+
+    private IEnumerator 等待計算(int 得到數量,int 顯示的分數,Text text,float 等等等 = 0)
+    {
+        yield return new WaitForSeconds(等等等); 
+
+        for (int i = 0; i <= 得到數量; i++)
+        {
+            顯示的分數 = i * 100;
+            text.text = 顯示的分數.ToString();
+            yield return new WaitForSeconds(0.5f); 
+        }
     }
 }
