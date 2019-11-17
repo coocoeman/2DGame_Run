@@ -28,8 +28,9 @@ public class Cat : MonoBehaviour
     public Tilemap tpa;
     public Text T;
     public GameObject end;
-    public Text texta, textb, textc;
-    public int textaa, textbb, textcc;
+    public Text texta, textb, textc ;
+    //public int textaa, textbb, textcc;
+    public int[] 分數陣列 = new int[4];
     #endregion
 
     private void Start()
@@ -189,19 +190,29 @@ public class Cat : MonoBehaviour
         if (end.activeInHierarchy == false)
         {
             end.SetActive(true);
-            StartCoroutine(等待計算(ta,textaa,texta));
+            StartCoroutine(等待計算(ta,0,100,texta));
+            int timeA =(int) Time.timeSinceLevelLoad;
+            StartCoroutine(等待計算(timeA, 1,100, textb,ta*0.5f));
         }
     }
 
-    private IEnumerator 等待計算(int 得到數量,int 顯示的分數,Text text,float 等等等 = 0)
+    private IEnumerator 等待計算(int 得到數量,int 顯示的分數,int 分數加成,Text text,float 等等等 = 0)
     {
         yield return new WaitForSeconds(等等等); 
 
         for (int i = 0; i <= 得到數量; i++)
         {
-            顯示的分數 = i * 100;
-            text.text = 顯示的分數.ToString();
+            分數陣列[顯示的分數] = i * 分數加成;
+            text.text = 分數陣列[顯示的分數].ToString();
             yield return new WaitForSeconds(0.5f); 
         }
+        if (顯示的分數 != 2) 分數陣列[2] += 分數陣列[顯示的分數];
+        if (顯示的分數 == 1)
+        {
+            int total = 分數陣列[2] / 100;
+            分數陣列[3] = 0;
+            StartCoroutine(等待計算(total, 2, 100, textc, 0));
+        }
     }
+
 }
